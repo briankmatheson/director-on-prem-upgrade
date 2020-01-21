@@ -18,10 +18,20 @@
       kubectl create ns <custom_namespace>
       kubectl create secret docker-registry <secretname> --docker-server=registry.mayadata.io --docker-username=<username> --docker-password=<password> -n <custom_namespace>
       ```
-      Where <username> is the email address you used to sign up, as referenced in the Director On-Prem email
+      Where <secretname> is the name of the secret to add (typically "directoronprem-registry-secret")
+            <username> is the email address you used to sign up, as referenced in the Director On-Prem email
             <password> is the password included in that email
             <custom_namespace> is a unique namespace to install in (typically "director")
+      ```
+## 4. Edit values.yaml and apply changes to the file as needed (see sample in this repository)
+### 4.1. Change dockerSecret name as necessary
+### 4.2. Specify endpoint URL (typically address of nodeport or external Load Balancer endpoint)
 
-## 4. 
+## 5. Run helm install to install the local chart
+      ```
+      helm install directoronprem --namespace director .
+      ```
+
+
 ## References:
 * https://help.mayadata.io/hc/en-us/articles/360037922872-Setting-up-OpenEBS-Director-OnPrem-on-a-Rancher-based-kubernetes-cluster
