@@ -9,7 +9,7 @@
       cd director-charts/1.6.0
       ```
 
-## 2. Remove ingress dependency
+## 2. Remove ingress dependencies from helm chart
       ```
       rm -rf templates/{cm-nginx-configuration.yaml,clr-nginx-ingress-clusterrole.yaml,cm-tcp-services-ingress.yaml,cm-udp-services-ingress.yaml,crb-nginx-ingress-clusterrole-nisa-binding.yaml,dep-nginx-ingress-controller.yaml,ns-ingress-nginx.yaml,rlb-nginx-ingress-role-nisa-binding.yaml,role-nginx-ingress-role.yaml,sa-nginx-ingress-serviceaccount.yaml,svc-ingress-nginx.yaml,dep-default-http-backend.yaml,svc-default-http-backend}
 
@@ -25,9 +25,17 @@
       ```
 ## 4. Edit values.yaml and apply changes to the file as needed (see sample in this repository)
 ### 4.1. Change dockerSecret name as necessary
-### 4.2. Specify endpoint URL (typically address of nodeport or external Load Balancer endpoint)
+### 4.2. Specify endpoint URL (typically address and port of nodeport (e.g. 1.2.3.4:80) or external Load Balancer endpoint)
+### 4.3. Specify storage classes as appropriate
+#### 4.3.1 mysql should be installed on jiva for speed and backups
+#### 4.3.2 elasticSearch should be installed on Jiva or LocalPV (hostpath typically) for speed
+#### 4.3.3 cassandra should also be installed on Jiva or LocalPV
+#### 4.3.4 "mayaStore" data should be on jiva or cstor for replication and backups
+#### 4.3.5 grafana data should be on jiva or cstor for replication and backups
 
-## 5. Run helm install to install the local chart
+## 5. Modify deployments whose data is on Jiva or Cstor to use update method recreate rather tyhan rollingupdate
+
+## 6. Run helm upgrade to install the new local chart
       ```
       helm install directoronprem --namespace director .
       ```
